@@ -48,6 +48,36 @@ function App() {
       id: 'second-charge',
       title: '2nd Charge Loan',
       description: 'Securing a loan with a second charge alongside your existing mortgage.'
+    },
+    {
+      id: 'occupier-consent',
+      title: 'Occupier Consent Form',
+      description: 'Confirming the lender\'s charge takes priority over any rights you may have in the property.'
+    },
+    {
+      id: 'business-loan',
+      title: 'Business Loan',
+      description: 'Providing a personal guarantee or using property as security for a business borrowing.'
+    },
+    {
+      id: 'third-party-borrowing',
+      title: '3rd Party Borrowing',
+      description: 'Borrowing in another person\'s or company\'s name, supported by a personal guarantee or property charge.'
+    },
+    {
+      id: 'equity-release',
+      title: 'Equity Release',
+      description: 'Releasing funds from your home through a lifetime mortgage or similar arrangement.'
+    },
+    {
+      id: 'change-ownership',
+      title: 'Change of Ownership',
+      description: 'Changing legal ownership by adding or removing a co-owner.'
+    },
+    {
+      id: 'deposit-gift',
+      title: 'Deposit Gift',
+      description: 'Gifting funds towards a property purchase with no repayment expected.'
     }
   ]
 
@@ -284,6 +314,78 @@ function App() {
           'Review the second charge documents and security arrangements',
           'Explain the legal implications and risks of second charge lending',
           'Address any questions or concerns you may have',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+        ]
+      },
+      'occupier-consent': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Occupier Consent Form`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your occupier consent process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when confirming the lender\'s charge takes priority over any rights you may have in the property. This is typically needed when you live in a property that is being used as security for someone else\'s borrowing.',
+        meetingPoints: [
+          'Review the occupier consent documents you need to sign',
+          'Explain your rights and the priority of the lender\'s charge over the property',
+          'Address any questions or concerns you may have about your occupancy rights',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+        ]
+      },
+      'business-loan': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Business Loan`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your business loan process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when providing a personal guarantee or using property as security for a business borrowing. This ensures you understand the personal liability you are taking on for business debts.',
+        meetingPoints: [
+          'Review the business loan documents and personal guarantee requirements',
+          'Explain the legal implications and personal liability for business debts',
+          'Address any questions or concerns about the business loan arrangement',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+        ]
+      },
+      'third-party-borrowing': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for 3rd Party Borrowing`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your third party borrowing process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when borrowing in another person\'s or company\'s name, supported by a personal guarantee or property charge. This ensures you understand your obligations when supporting someone else\'s borrowing.',
+        meetingPoints: [
+          'Review the third party borrowing documents and your guarantee obligations',
+          'Explain the legal implications of supporting another party\'s borrowing',
+          'Address any questions about your liability and the security arrangements',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+        ]
+      },
+      'equity-release': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Equity Release`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your equity release process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when releasing funds from your home through a lifetime mortgage or similar arrangement. This ensures you understand the long-term implications of equity release on your property and inheritance.',
+        meetingPoints: [
+          'Review the equity release documents and loan terms',
+          'Explain the long-term implications on your property and inheritance',
+          'Address any questions about repayment terms and interest accumulation',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+        ]
+      },
+      'change-ownership': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Change of Ownership`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your change of ownership process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when changing legal ownership by adding or removing a co-owner. This ensures you understand the legal and financial implications of ownership changes on your property.',
+        meetingPoints: [
+          'Review the ownership change documents and new ownership structure',
+          'Explain the legal implications of adding or removing co-owners',
+          'Address any questions about property rights and financial responsibilities',
+          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the requirements'
+        ]
+      },
+      'deposit-gift': {
+        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Deposit Gift`,
+        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your deposit gift process proceeds without delay.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'This ILA service is required when gifting funds towards a property purchase with no repayment expected. This confirms the gift is genuine and there are no hidden obligations or expectations of repayment.',
+        meetingPoints: [
+          'Review the gift documentation and confirm no repayment is expected',
+          'Explain the legal implications of property gifting and tax considerations',
+          'Address any questions about the gift arrangements and future obligations',
           'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
         ]
       }
