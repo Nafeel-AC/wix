@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
+import googleSheetsService from './services/googleSheets'
 import './App.css'
 
 function App() {
@@ -27,6 +28,27 @@ function App() {
     phone: '',
     lender: ''
   })
+
+  // Google Sheets initialization
+  const [sheetsInitialized, setSheetsInitialized] = useState(false)
+
+  useEffect(() => {
+    // Initialize Google Sheets service on component mount
+    const initializeSheets = async () => {
+      try {
+        const initialized = await googleSheetsService.initialize()
+        if (initialized) {
+          await googleSheetsService.createBookingSheet()
+          setSheetsInitialized(true)
+          console.log('Google Sheets service initialized successfully')
+        }
+      } catch (error) {
+        console.error('Failed to initialize Google Sheets:', error)
+      }
+    }
+
+    initializeSheets()
+  }, [])
 
   const services = [
     {
@@ -218,34 +240,97 @@ function App() {
   }
 
   const sendConfirmationEmail = async () => {
-    const service = services.find(s => s.id === selectedService)
-    const package_ = getSelectedPackage()
-    const solicitor = solicitors.find(s => s.id === selectedSolicitor)
+    console.log('🚀 sendConfirmationEmail function called!')
+    console.log('Selected service:', selectedService)
+    console.log('Contact info:', contactInfo)
     
-    const templateParams = {
-      to_name: `${contactInfo.firstName} ${contactInfo.lastName}`,
-      to_email: contactInfo.email,
-      service_name: service?.title,
-      package_details: `${package_?.persons} Person${package_?.persons > 1 ? 's' : ''}`,
-      price: `£${package_?.price.toFixed(2)}`,
-      solicitor_name: solicitor?.name,
-      appointment_date: selectedDate,
-      appointment_time: selectedTime,
-      phone: contactInfo.phone,
-      lender: contactInfo.lender
-    }
-
     try {
-      // You'll need to set up EmailJS service and get your keys
-      await emailjs.send(
-        'your_service_id', // Replace with your EmailJS service ID
-        'your_template_id', // Replace with your EmailJS template ID
-        templateParams,
-        'your_public_key' // Replace with your EmailJS public key
-      )
-      console.log('Email sent successfully')
+      const service = services.find(s => s.id === selectedService)
+      const package_ = getSelectedPackage()
+      const solicitor = solicitors.find(s => s.id === selectedSolicitor)
+      
+      console.log('Service found:', service)
+      console.log('Package found:', package_)
+      console.log('Solicitor found:', solicitor)
+      
+      // Prepare booking data for Google Sheets
+      const bookingData = {
+        serviceType: service?.title,
+        persons: package_?.persons,
+        price: package_?.price.toFixed(2),
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phone,
+        lender: contactInfo.lender,
+        solicitor: solicitor?.name,
+        appointmentDate: selectedDate,
+        appointmentTime: selectedTime
+      }
+
+      console.log('📋 Prepared booking data:', bookingData)
+
+      // Save to Google Sheets first (always try, even if initialization seemed to fail)
+      console.log('💾 Attempting to save booking to Google Sheets...')
+      console.log('Sheets initialized:', sheetsInitialized)
+      console.log('Google Sheets Service URL:', import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL)
+      
+      const sheetResult = await googleSheetsService.saveBooking(bookingData)
+      console.log('📊 Sheet result received:', sheetResult)
+      
+      if (sheetResult && sheetResult.success) {
+        console.log('✅ Booking saved to Google Sheets:', sheetResult.bookingId)
+        setSheetsInitialized(true) // Mark as initialized if save succeeds
+      } else {
+        console.error('❌ Failed to save to Google Sheets')
+        console.error('Sheet result:', sheetResult)
+        if (sheetResult && sheetResult.error) {
+          console.error('Error message:', sheetResult.error)
+        }
+      }
+
+      // Then send confirmation email (skip if EmailJS not configured)
+      try {
+        const templateParams = {
+          to_name: `${contactInfo.firstName} ${contactInfo.lastName}`,
+          to_email: contactInfo.email,
+          service_name: service?.title,
+          package_details: `${package_?.persons} Person${package_?.persons > 1 ? 's' : ''}`,
+          price: `£${package_?.price.toFixed(2)}`,
+          solicitor_name: solicitor?.name,
+          appointment_date: selectedDate,
+          appointment_time: selectedTime,
+          phone: contactInfo.phone,
+          lender: contactInfo.lender
+        }
+
+        // Only send email if EmailJS is configured
+        const emailServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+        if (emailServiceId && emailServiceId !== 'your_service_id') {
+          await emailjs.send(
+            emailServiceId,
+            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            templateParams,
+            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+          )
+          console.log('✅ Email sent successfully')
+        } else {
+          console.log('⚠️ EmailJS not configured, skipping email')
+        }
+      } catch (emailError) {
+        console.warn('⚠️ Email sending failed (non-critical):', emailError)
+        // Don't fail the whole process if email fails
+      }
+      
+      console.log('✅ sendConfirmationEmail completed successfully')
     } catch (error) {
-      console.error('Email sending failed:', error)
+      console.error('❌ sendConfirmationEmail failed with error:', error)
+      console.error('Error stack:', error.stack)
+      console.error('Error details:', {
+        message: error.message,
+        name: error.name,
+        cause: error.cause
+      })
     }
   }
 
@@ -593,7 +678,7 @@ function App() {
                   Book Now
                 </button>
               </div>
-            </div>
+      </div>
 
             <div className="service-tabs">
               <button 
@@ -607,7 +692,7 @@ function App() {
                 onClick={() => setActiveTab('solicitors')}
               >
                 Solicitors
-              </button>
+        </button>
             </div>
 
             <div className="service-content">
@@ -963,9 +1048,17 @@ function App() {
 
                   <button 
                     className="finish-btn"
-                    onClick={() => {
-                      sendConfirmationEmail()
-                      finishBooking()
+                    onClick={async () => {
+                      console.log('🔘 Finish button clicked!')
+                      try {
+                        await sendConfirmationEmail()
+                        console.log('✅ Email/Sheets process completed, closing modal...')
+                        finishBooking()
+                      } catch (error) {
+                        console.error('❌ Error in finish button handler:', error)
+                        // Still close the modal even if there's an error
+                        finishBooking()
+                      }
                     }}
                   >
                     Finish
