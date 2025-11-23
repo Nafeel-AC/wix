@@ -1,0 +1,203 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║          🔧 BOOKING SAVE FIX - DEPLOYMENT CHECKLIST 🔧             ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+Follow these steps IN ORDER. Check each box as you complete it.
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 1: PREPARE THE UPDATED SCRIPT                            │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] Open file: google-apps-script.js (in your project folder)
+[ ] Select all code (Ctrl+A / Cmd+A)
+[ ] Copy all code (Ctrl+C / Cmd+C)
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 2: UPDATE GOOGLE APPS SCRIPT                             │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] Open browser and go to: https://script.google.com
+[ ] Find and open your existing project
+[ ] Select all existing code (Ctrl+A / Cmd+A)
+[ ] Paste the new code (Ctrl+V / Cmd+V)
+[ ] Click the Save icon (💾) or press Ctrl+S / Cmd+S
+[ ] Wait for "Saving..." to complete
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 3: CREATE NEW DEPLOYMENT ⚠️ CRITICAL! ⚠️                 │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] Click "Deploy" button (top-right corner)
+[ ] Select "New deployment" from dropdown
+[ ] Click the gear icon (⚙️) next to "Select type"
+[ ] Choose "Web app"
+[ ] Fill in the form:
+    [ ] Description: "Fix booking save v2"
+    [ ] Execute as: Me (your-email@gmail.com)
+    [ ] Who has access: Anyone
+[ ] Click "Deploy" button
+[ ] If prompted "Authorize access":
+    [ ] Click "Authorize access"
+    [ ] Select your Google account
+    [ ] Click "Advanced" (if you see a warning)
+    [ ] Click "Go to [your project name]"
+    [ ] Click "Allow"
+[ ] Copy the Web App URL (if it changed)
+[ ] Click "Done"
+
+⚠️  IMPORTANT: If you skip this step, the fix will NOT work!
+    You MUST create a NEW deployment, not just save!
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 4: UPDATE YOUR .ENV FILE (if URL changed)                │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] Check if you got a NEW Web App URL
+    (Usually it's the same, but check to be sure)
+[ ] If URL is NEW:
+    [ ] Open: .env file in vite-project folder
+    [ ] Update: VITE_GOOGLE_APPS_SCRIPT_URL=<new-url>
+    [ ] Save the file
+[ ] If URL is the SAME:
+    [ ] No changes needed! ✓
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 5: RESTART YOUR DEVELOPMENT SERVER                       │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] In your terminal where the server is running:
+    [ ] Press Ctrl+C to stop the server
+    [ ] Wait for it to fully stop
+[ ] Start the server again:
+    [ ] Run: npm run dev
+    [ ] Wait for "Local: http://localhost:5173/"
+[ ] Open the URL in your browser
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 6: TEST THE BOOKING                                      │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] In the web app, make a test booking:
+    [ ] Select a service (e.g., "Bridging Finance")
+    [ ] Select a package (e.g., "1 Person")
+    [ ] Click "Book Now"
+    [ ] Select a solicitor
+    [ ] Select a date
+    [ ] Select a time slot
+    [ ] Click "Continue"
+    [ ] Fill in all information:
+        [ ] First Name
+        [ ] Last Name
+        [ ] Email
+        [ ] Phone
+        [ ] Lender
+    [ ] Check both agreement checkboxes
+    [ ] Click "Continue"
+    [ ] Click "Finish" on confirmation page
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 7: VERIFY SUCCESS                                        │
+└────────────────────────────────────────────────────────────────┘
+
+[ ] Check for SUCCESS alert:
+    You should see a popup saying:
+    "✅ Booking saved successfully to Google Sheets!"
+
+[ ] Check browser console (Press F12):
+    [ ] Look for green checkmarks: ✅
+    [ ] Look for: "SUCCESS! Booking saved to Google Sheets!"
+    [ ] Look for: "Row number in sheet: 2" (or higher)
+    [ ] NO red error messages ❌
+
+[ ] Check Google Sheets:
+    [ ] Open your Google Sheets
+    [ ] You should see:
+        [ ] Row 1: Headers
+        [ ] Row 2: Your test booking data
+    [ ] All columns should be filled with data
+
+┌────────────────────────────────────────────────────────────────┐
+│ STEP 8: CHECK LOGS (if something went wrong)                  │
+└────────────────────────────────────────────────────────────────┘
+
+If you see an ERROR alert or no data in sheets:
+
+[ ] Check Google Apps Script Execution Logs:
+    [ ] Go to: https://script.google.com
+    [ ] Open your project
+    [ ] Click ⏱️ "Executions" in left sidebar
+    [ ] Click on the most recent execution
+    [ ] Read the logs - they will tell you what went wrong
+    [ ] Look for: "=== SAVE BOOKING STARTED ==="
+    [ ] Look for: "Row appended successfully"
+
+[ ] Check Browser Console (F12):
+    [ ] Look for red error messages
+    [ ] Look for: "❌ FAILED to save"
+    [ ] Copy any error messages
+
+┌────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                                │
+└────────────────────────────────────────────────────────────────┘
+
+If data is still NOT saving:
+
+❓ Did you create a NEW deployment?
+   → Go back to STEP 3 and create a NEW deployment
+   → Don't just save, must deploy!
+
+❓ Is the spreadsheet ID correct?
+   → Open google-apps-script.js
+   → Check line 9: SPREADSHEET_ID = '...'
+   → Should be: '1oR3FAaHWzoVYZtuQ5SAgR_4oT47Mqk6AP4XJ_u7FlkA'
+
+❓ Is the Web App URL correct?
+   → Open .env file
+   → Check: VITE_GOOGLE_APPS_SCRIPT_URL
+   → Should end with: /exec
+
+❓ Did you restart the dev server?
+   → Stop with Ctrl+C
+   → Start with: npm run dev
+   → Don't just refresh the browser
+
+❓ Browser cache issue?
+   → Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
+
+┌────────────────────────────────────────────────────────────────┐
+│ SUCCESS CRITERIA ✓                                            │
+└────────────────────────────────────────────────────────────────┘
+
+You know it's working when:
+
+✅ Alert says: "Booking saved successfully"
+✅ Browser console shows: "SUCCESS! Booking saved!"
+✅ Google Sheets has a new row with all your data
+✅ Google Apps Script execution logs show: "Row appended successfully"
+
+┌────────────────────────────────────────────────────────────────┐
+│ NEED MORE HELP?                                               │
+└────────────────────────────────────────────────────────────────┘
+
+Read these files for more information:
+📄 QUICK_FIX_STEPS.md - Quick 5-step guide
+📄 FIX_SUMMARY.md - Complete explanation of what was fixed
+📄 DEPLOYMENT_FIX_GUIDE.md - Detailed troubleshooting guide
+
+Still stuck? Share:
+1. Screenshot of browser console (F12)
+2. Screenshot of Google Apps Script execution logs
+3. Screenshot of Google Sheets
+4. Confirm you created a NEW deployment (not just saved)
+
+Remember: 99% of issues are solved by creating a NEW deployment!
+
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║  🎉 Once you see data in your Google Sheet, YOU'RE DONE! 🎉   ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+

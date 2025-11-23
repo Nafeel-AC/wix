@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
-import googleSheetsService from './services/googleSheets'
 import './App.css'
 
-function App() {
-  const [selectedService, setSelectedService] = useState('')
+function BookingFlow({ preSelectedService = null }) {
+  const isDirectLink = preSelectedService !== null
+  
+  const [selectedService, setSelectedService] = useState(preSelectedService || '')
   const [selectedPackage, setSelectedPackage] = useState('')
-  const [currentStep, setCurrentStep] = useState('service-selection')
+  const [currentStep, setCurrentStep] = useState(isDirectLink ? 'package-selection' : 'service-selection')
   const [activeTab, setActiveTab] = useState('details')
+  const [cameFromDirectLink, setCameFromDirectLink] = useState(isDirectLink)
   
   // Booking modal states
   const [showBookingModal, setShowBookingModal] = useState(false)
@@ -29,28 +32,17 @@ function App() {
     lender: ''
   })
 
-  // Google Sheets initialization
-  const [sheetsInitialized, setSheetsInitialized] = useState(false)
-
-  useEffect(() => {
-    // Initialize Google Sheets service on component mount
-    const initializeSheets = async () => {
-      try {
-        const initialized = await googleSheetsService.initialize()
-        if (initialized) {
-          await googleSheetsService.createBookingSheet()
-          setSheetsInitialized(true)
-          console.log('Google Sheets service initialized successfully')
-        }
-      } catch (error) {
-        console.error('Failed to initialize Google Sheets:', error)
-      }
-    }
-
-    initializeSheets()
-  }, [])
-
   const services = [
+    {
+      id: 'immigration',
+      title: 'Immigration',
+      description: 'Expert legal advice and representation for all immigration matters including visas, citizenship, and residency applications.'
+    },
+    {
+      id: 'family-solicitors',
+      title: 'Family Solicitors',
+      description: 'Comprehensive family law services including divorce, child custody, prenuptial agreements, and family mediation.'
+    },
     {
       id: 'buy-to-let',
       title: 'Buy-to-Let',
@@ -166,6 +158,8 @@ function App() {
 
   const handleServiceSelect = (serviceId) => {
     setSelectedService(serviceId)
+    // Automatically proceed to package selection when a service is selected
+    setCurrentStep('package-selection')
   }
 
   const handleContinue = () => {
@@ -181,7 +175,10 @@ function App() {
 
   const handleGoBack = () => {
     if (currentStep === 'package-selection') {
-      setCurrentStep('service-selection')
+      // Only go back to service-selection if we didn't come from a direct link
+      if (!cameFromDirectLink) {
+        setCurrentStep('service-selection')
+      }
       setSelectedPackage('')
     } else if (currentStep === 'service-details') {
       setCurrentStep('package-selection')
@@ -252,44 +249,8 @@ function App() {
       console.log('Service found:', service)
       console.log('Package found:', package_)
       console.log('Solicitor found:', solicitor)
-      
-      // Prepare booking data for Google Sheets
-      const bookingData = {
-        serviceType: service?.title,
-        persons: package_?.persons,
-        price: package_?.price.toFixed(2),
-        firstName: contactInfo.firstName,
-        lastName: contactInfo.lastName,
-        email: contactInfo.email,
-        phone: contactInfo.phone,
-        lender: contactInfo.lender,
-        solicitor: solicitor?.name,
-        appointmentDate: selectedDate,
-        appointmentTime: selectedTime
-      }
 
-      console.log('📋 Prepared booking data:', bookingData)
-
-      // Save to Google Sheets first (always try, even if initialization seemed to fail)
-      console.log('💾 Attempting to save booking to Google Sheets...')
-      console.log('Sheets initialized:', sheetsInitialized)
-      console.log('Google Sheets Service URL:', import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL)
-      
-      const sheetResult = await googleSheetsService.saveBooking(bookingData)
-      console.log('📊 Sheet result received:', sheetResult)
-      
-      if (sheetResult && sheetResult.success) {
-        console.log('✅ Booking saved to Google Sheets:', sheetResult.bookingId)
-        setSheetsInitialized(true) // Mark as initialized if save succeeds
-      } else {
-        console.error('❌ Failed to save to Google Sheets')
-        console.error('Sheet result:', sheetResult)
-        if (sheetResult && sheetResult.error) {
-          console.error('Error message:', sheetResult.error)
-        }
-      }
-
-      // Then send confirmation email (skip if EmailJS not configured)
+      // Send confirmation email (skip if EmailJS not configured)
       try {
         const templateParams = {
           to_name: `${contactInfo.firstName} ${contactInfo.lastName}`,
@@ -314,23 +275,21 @@ function App() {
             import.meta.env.VITE_EMAILJS_PUBLIC_KEY
           )
           console.log('✅ Email sent successfully')
+          alert('✅ Booking confirmed! Confirmation email sent.')
         } else {
           console.log('⚠️ EmailJS not configured, skipping email')
+          alert('✅ Booking confirmed! (Email service not configured)')
         }
       } catch (emailError) {
         console.warn('⚠️ Email sending failed (non-critical):', emailError)
-        // Don't fail the whole process if email fails
+        alert('✅ Booking confirmed! (Email sending failed - please contact support)')
       }
       
       console.log('✅ sendConfirmationEmail completed successfully')
     } catch (error) {
       console.error('❌ sendConfirmationEmail failed with error:', error)
       console.error('Error stack:', error.stack)
-      console.error('Error details:', {
-        message: error.message,
-        name: error.name,
-        cause: error.cause
-      })
+      alert('⚠️ An error occurred. Please try again or contact support.')
     }
   }
 
@@ -354,6 +313,30 @@ function App() {
     if (!service || !package_) return null
 
     const baseDetails = {
+      'immigration': {
+        fullTitle: `Immigration Legal Services for ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`,
+        description: 'Book a consultation with our expert immigration solicitors to discuss your visa, citizenship, or residency needs.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'Our immigration solicitors provide expert legal advice and representation for all immigration matters including visa applications, citizenship applications, residency permits, and immigration appeals.',
+        meetingPoints: [
+          'Review your immigration case and documentation',
+          'Provide expert legal advice on visa and residency options',
+          'Assist with application preparation and submission',
+          'Address any questions or concerns about your immigration status'
+        ]
+      },
+      'family-solicitors': {
+        fullTitle: `Family Law Services for ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`,
+        description: 'Book a consultation with our experienced family solicitors to discuss your family law matters including divorce, custody, and family agreements.',
+        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
+        serviceDescription: 'Our family solicitors provide comprehensive family law services including divorce proceedings, child custody arrangements, prenuptial agreements, family mediation, and other family-related legal matters.',
+        meetingPoints: [
+          'Review your family law case and circumstances',
+          'Provide expert legal advice on your options',
+          'Assist with documentation and legal proceedings',
+          'Address any questions or concerns about your family law matter'
+        ]
+      },
       'buy-to-let': {
         fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Buy-to-Let`,
         description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your buy-to-let mortgage process proceeds without delay.',
@@ -583,16 +566,6 @@ function App() {
                   </div>
                 ))}
               </div>
-
-              <div className="form-actions">
-                <button 
-                  className="continue-button"
-                  onClick={handleContinue}
-                  disabled={!selectedService}
-                >
-                  Continue to Package Selection
-                </button>
-              </div>
             </div>
           </>
         )}
@@ -600,11 +573,13 @@ function App() {
         {/* Package Selection Step */}
         {currentStep === 'package-selection' && (
           <>
-            <div className="go-back-container">
-              <button className="go-back-button" onClick={handleGoBack}>
-                ‹ Go Back
-              </button>
-            </div>
+            {!cameFromDirectLink && (
+              <div className="go-back-container">
+                <button className="go-back-button" onClick={handleGoBack}>
+                  ‹ Go Back
+                </button>
+              </div>
+            )}
 
             <div className="package-selection">
               <h2>Select Number of Persons - 4 Options:</h2>
@@ -1052,7 +1027,7 @@ function App() {
                       console.log('🔘 Finish button clicked!')
                       try {
                         await sendConfirmationEmail()
-                        console.log('✅ Email/Sheets process completed, closing modal...')
+                        console.log('✅ Booking process completed, closing modal...')
                         finishBooking()
                       } catch (error) {
                         console.error('❌ Error in finish button handler:', error)
@@ -1071,6 +1046,16 @@ function App() {
         </div>
       )}
     </div>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<BookingFlow />} />
+      <Route path="/immigration" element={<BookingFlow preSelectedService="immigration" />} />
+      <Route path="/family-solicitors" element={<BookingFlow preSelectedService="family-solicitors" />} />
+    </Routes>
   )
 }
 

@@ -83,6 +83,9 @@ body {
   transition: all 0.3s ease;
   background: #fff;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .service-card:hover {
@@ -109,6 +112,7 @@ body {
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0 0 20px 0;
+  flex-grow: 1;
 }
 
 .service-button {
@@ -120,6 +124,7 @@ body {
   font-weight: 500;
   font-size: 0.95rem;
   transition: background-color 0.3s ease;
+  margin-top: auto;
 }
 
 .service-card:hover .service-button {
