@@ -591,10 +591,6 @@ function BookingFlow({ preSelectedService = null }) {
                     className={`package-card ${selectedPackage === package_.id ? 'selected' : ''}`}
                     onClick={() => handlePackageSelect(package_.id)}
                   >
-                    {package_.savings && (
-                      <div className="savings-badge">Save {package_.savings}</div>
-                    )}
-                    
                     <div className="package-header">
                       <h3>{getSelectedServiceTitle()} - {package_.persons} Person{package_.persons > 1 ? 's' : ''}</h3>
                       <div className="price-info">
