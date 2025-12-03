@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import './App.css'
 
-function BookingFlow({ preSelectedService = null }) {
+function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
   const isDirectLink = preSelectedService !== null
   
   const [selectedService, setSelectedService] = useState(preSelectedService || '')
@@ -32,7 +32,7 @@ function BookingFlow({ preSelectedService = null }) {
     lender: ''
   })
 
-  const services = [
+  const allServices = [
     {
       id: 'immigration',
       title: 'Immigration',
@@ -94,6 +94,9 @@ function BookingFlow({ preSelectedService = null }) {
       description: 'Deposit gifts can carry important legal and financial implications. Book Independent Legal Advice to safeguard your position before accepting or providing a gift.'
     }
   ]
+
+  // Filter services based on servicesFilter function if provided
+  const services = servicesFilter ? allServices.filter(servicesFilter) : allServices
  
   const defaultPackageOptions = [
     {
@@ -1220,11 +1223,17 @@ function BookingFlow({ preSelectedService = null }) {
 }
 
 function App() {
+  // Filter function to exclude immigration and family-solicitors for ILA page
+  const ilaServicesFilter = (service) => {
+    return service.id !== 'immigration' && service.id !== 'family-solicitors'
+  }
+
   return (
     <Routes>
       <Route path="/" element={<BookingFlow />} />
       <Route path="/immigration" element={<BookingFlow preSelectedService="immigration" />} />
       <Route path="/family-solicitors" element={<BookingFlow preSelectedService="family-solicitors" />} />
+      <Route path="/independent-legal-advice" element={<BookingFlow servicesFilter={ilaServicesFilter} />} />
     </Routes>
   )
 }
