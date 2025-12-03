@@ -36,42 +36,42 @@ function BookingFlow({ preSelectedService = null }) {
     {
       id: 'immigration',
       title: 'Immigration',
-      description: 'Expert legal advice and representation for all immigration matters including visas, citizenship, and residency applications.'
+      description: 'Leading Immigration Solicitors Delivering Expert Support with Visas, Citizenship, and Residency Matters.'
     },
     {
       id: 'family-solicitors',
       title: 'Family Solicitors',
-      description: 'Comprehensive family law services including divorce, child custody, prenuptial agreements, and family mediation.'
+      description: 'Your Complete Family Law Solution: Divorce, Child Arrangements, Prenups, and Mediation - All Under One Roof.'
     },
     {
       id: 'buy-to-let',
       title: 'Buy-to-Let',
-      description: 'Acting as guarantor for a limited company\'s buy-to-let mortgage.'
+      description: 'Before You Sign as a Guarantor for a Company Buy-to-Let - Get Independent Legal Advice You Can Trust.'
     },
     {
       id: 'bridging-finance',
       title: 'Bridging Finance',
-      description: 'Need to provide a personal guarantee or legal charge over property for a short-term loan?'
+      description: 'Bridging Finance on the horizon? Let us provide the Independent Legal Advice you need to stay protected, informed, and confident in your next financial move.'
     },
     {
       id: 'joint-borrower',
       title: 'Joint Borrower Sole Proprietor',
-      description: 'Joining a mortgage to help with affordability but without taking legal ownership.'
+      description: 'Taking part in a Joint Borrower, Sole Proprietor arrangement? Our Independent Legal Advice gives you clarity, confidence, and complete protection before you commit.'
     },
     {
       id: 'second-charge',
       title: '2nd Charge Loan',
-      description: 'Securing a loan with a second charge alongside your existing mortgage.'
+      description: 'Adding a Second Charge to Your Mortgage? Book your Independent Legal Advice today.'
     },
     {
       id: 'occupier-consent',
       title: 'Occupier Consent Form',
-      description: 'Confirming the lender\'s charge takes priority over any rights you may have in the property.'
+      description: 'Understand that the lender\'s charge will rank above your rights in the property. Book Independent Legal Advice to ensure full clarity before signing.'
     },
     {
       id: 'business-loan',
       title: 'Business Loan',
-      description: 'Providing a personal guarantee or using property as security for a business borrowing.'
+      description: 'Business finance ahead? Get trusted Independent Legal Advice before committing to loan terms or guarantees.'
     },
     {
       id: 'third-party-borrowing',
@@ -81,7 +81,7 @@ function BookingFlow({ preSelectedService = null }) {
     {
       id: 'equity-release',
       title: 'Equity Release',
-      description: 'Releasing funds from your home through a lifetime mortgage or similar arrangement.'
+      description: 'Equity Release can affect inheritance, property rights, and future financial planning. Book Independent Legal Advice to gain clarity and confidence before proceeding.'
     },
     {
       id: 'change-ownership',
@@ -91,11 +91,11 @@ function BookingFlow({ preSelectedService = null }) {
     {
       id: 'deposit-gift',
       title: 'Deposit Gift',
-      description: 'Gifting funds towards a property purchase with no repayment expected.'
+      description: 'Deposit gifts can carry important legal and financial implications. Book Independent Legal Advice to safeguard your position before accepting or providing a gift.'
     }
   ]
-
-  const packageOptions = [
+ 
+  const defaultPackageOptions = [
     {
       id: '1-person',
       persons: 1,
@@ -105,20 +105,20 @@ function BookingFlow({ preSelectedService = null }) {
     {
       id: '2-persons',
       persons: 2,
-      price: 270.00,
-      savings: '10%'
+      price: 300.00,
+      savings: null
     },
     {
       id: '3-persons',
       persons: 3,
-      price: 382.50,
-      savings: '15%'
+      price: 450.00,
+      savings: null
     },
     {
       id: '4-persons',
       persons: 4,
-      price: 480.00,
-      savings: '20%'
+      price: 600.00,
+      savings: null
     }
   ]
 
@@ -298,12 +298,161 @@ function BookingFlow({ preSelectedService = null }) {
     // You could redirect to a thank you page or show a success message
   }
 
+  const getPackageOptions = () => {
+    if (selectedService === 'immigration') {
+      return [
+        {
+          id: '30-min',
+          label: '30 Mins',
+          durationLabel: '30min',
+          price: 60.00
+        },
+        {
+          id: '60-min',
+          label: '1 Hour',
+          durationLabel: '1 hour',
+          price: 120.00
+        }
+      ]
+    }
+
+    if (selectedService === 'family-solicitors') {
+      return [
+        {
+          id: 'family-30-min',
+          label: '30 Mins',
+          durationLabel: '30min',
+          price: 180.00
+        },
+        {
+          id: 'family-60-min',
+          label: '1 Hour',
+          durationLabel: '1 hour',
+          price: 300.00
+        }
+      ]
+    }
+
+    if (selectedService === 'buy-to-let') {
+      return [
+        {
+          id: 'buy-to-let-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'bridging-finance') {
+      return [
+        {
+          id: 'bridging-finance-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'joint-borrower') {
+      return [
+        {
+          id: 'joint-borrower-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'second-charge') {
+      return [
+        {
+          id: 'second-charge-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'occupier-consent') {
+      return [
+        {
+          id: 'occupier-consent-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'business-loan') {
+      return [
+        {
+          id: 'business-loan-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'third-party-borrowing') {
+      return [
+        {
+          id: 'third-party-borrowing-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'equity-release') {
+      return [
+        {
+          id: 'equity-release-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'change-ownership') {
+      return [
+        {
+          id: 'change-ownership-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    if (selectedService === 'deposit-gift') {
+      return [
+        {
+          id: 'deposit-gift-2-persons',
+          persons: 2,
+          price: 270.00,
+          savings: null
+        }
+      ]
+    }
+
+    // Fallback to default person-based packages for all other services
+    return defaultPackageOptions
+  }
+
   const getSelectedServiceTitle = () => {
     return services.find(s => s.id === selectedService)?.title || ''
   }
 
   const getSelectedPackage = () => {
-    return packageOptions.find(p => p.id === selectedPackage)
+    return getPackageOptions().find(p => p.id === selectedPackage)
   }
 
   const getServiceDetails = () => {
@@ -314,10 +463,10 @@ function BookingFlow({ preSelectedService = null }) {
 
     const baseDetails = {
       'immigration': {
-        fullTitle: `Immigration Legal Services for ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`,
-        description: 'Book a consultation with our expert immigration solicitors to discuss your visa, citizenship, or residency needs.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'Our immigration solicitors provide expert legal advice and representation for all immigration matters including visa applications, citizenship applications, residency permits, and immigration appeals.',
+        fullTitle: `Immigration Legal Services - ${package_.label}`,
+        description: 'Get one-on-one advice from our specialist immigration solicitors, either via Zoom or in person. We’ll review your case, explain your options, and guide you through applications or appeals. Expert guidance on visas, citizenship, and residency.',
+        costDescription: '£60 for 30 Mins (VAT included). £120 for 1 Hour (VAT included).',
+        serviceDescription: '',
         meetingPoints: [
           'Review your immigration case and documentation',
           'Provide expert legal advice on visa and residency options',
@@ -326,135 +475,135 @@ function BookingFlow({ preSelectedService = null }) {
         ]
       },
       'family-solicitors': {
-        fullTitle: `Family Law Services for ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`,
-        description: 'Book a consultation with our experienced family solicitors to discuss your family law matters including divorce, custody, and family agreements.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'Our family solicitors provide comprehensive family law services including divorce proceedings, child custody arrangements, prenuptial agreements, family mediation, and other family-related legal matters.',
+        fullTitle: `Family Law Services - ${package_.label}`,
+        description: 'Discuss your family law matters with our experienced solicitors, including divorce, child custody, and family agreements.',
+        costDescription: 'Cost: £180.00 for 30 mins or £300.00 for 1 hour (including VAT). Optional Special Delivery: £18.00 (including VAT), if required.',
+        serviceDescription: 'Our family law team provides comprehensive services, including divorce proceedings, child custody arrangements, prenuptial agreements, family mediation, and other family-related legal matters. Book your consultation today to get professional guidance and support tailored to your situation.',
         meetingPoints: [
           'Review your family law case and circumstances',
           'Provide expert legal advice on your options',
           'Assist with documentation and legal proceedings',
-          'Address any questions or concerns about your family law matter'
+          'Answer any questions or concerns about your family law matter'
         ]
       },
       'buy-to-let': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Buy-to-Let`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your buy-to-let mortgage process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when someone is providing a personal guarantee and/or property as security for a buy-to-let mortgage. Buy-to-let mortgages are commonly used by property investors to purchase rental properties.',
+        fullTitle: 'Independent Legal Advice (ILA) for Buy-to-Let',
+        description: 'Make sure your buy-to-let mortgage proceeds without delays by booking a session for Independent Legal Advice (ILA) to meet your lender’s requirements.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT), if needed.',
+        serviceDescription: 'This service is required when a personal guarantee is being provided or property is being used as security for a buy-to-let mortgage. Buy-to-let mortgages are commonly used by property investors to acquire rental properties.',
         meetingPoints: [
-          'Review the security documents you need to sign',
-          'Explain the legal implications and responsibilities associated with signing',
-          'Address any questions or concerns you may have',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review all security documents you are required to sign',
+          'Explain your legal responsibilities and the implications of signing',
+          'Answer any questions or concerns you may have',
+          'Sign and issue the necessary ILA Solicitor Certificate to ensure full compliance with your lender’s requirements'
         ]
       },
       'bridging-finance': {
         fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Bridging Finance`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your bridging finance process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when someone is providing a personal guarantee and/or property as security for a bridging loan. Bridging finance is often used for short-term borrowing needs, such as property purchases or refurbishments, where the lender will require security for the loan.',
+        description: 'Ensure your bridging finance proceeds smoothly by booking a session for Independent Legal Advice (ILA) to satisfy your lender’s requirements.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT), if needed.',
+        serviceDescription: 'This ILA service is required when a personal guarantee is provided or property is used as security for a bridging loan. Bridging finance is often used by property investors or individuals to quickly secure short-term funding for purchasing or refinancing a property. Book your session today to complete your bridging finance process safely, confidently, and in full compliance with your lender’s requirements.',
         meetingPoints: [
-          'Review the security documents you need to sign',
-          'Explain the legal implications and responsibilities associated with signing',
-          'Address any questions or concerns you may have',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review the loan and security documents you need to sign',
+          'Explain your legal responsibilities and the implications of signing',
+          'Answer any questions or concerns regarding the bridging loan',
+          'Sign and provide the required ILA Solicitor Certificate to ensure compliance with the lender’s conditions'
         ]
       },
       'joint-borrower': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Joint Borrower Sole Proprietor`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your joint borrower sole proprietor mortgage process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when someone is joining a mortgage to help with affordability but without taking legal ownership. This arrangement allows family members to help with mortgage payments while the property remains solely owned by the main borrower.',
+        fullTitle: 'Independent Legal Advice (ILA) for Joint Borrower Sole Proprietor',
+        description: 'Ensure your Joint Borrower Sole Proprietor (JBSP) mortgage proceeds smoothly by booking a session for Independent Legal Advice (ILA) to meet your lender’s requirements.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT), if required.',
+        serviceDescription: 'This ILA service is required when one party is taking on a mortgage as a Joint Borrower Sole Proprietor, meaning one person holds the mortgage while others provide personal guarantees. This structure is commonly used by property investors and individuals buying rental or investment properties. Book your consultation today to complete your JBSP mortgage safely, confidently, and in compliance with lender requirements.',
         meetingPoints: [
-          'Review the mortgage documents and your obligations as a joint borrower',
-          'Explain the legal implications and financial responsibilities',
-          'Address any questions or concerns you may have',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review all mortgage and security documents you are required to sign',
+          'Explain your legal responsibilities and the implications of signing',
+          'Answer any questions or concerns you may have',
+          'Sign and provide the required ILA Solicitor Certificate to ensure full compliance with your lender’s requirements'
         ]
       },
       'second-charge': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for 2nd Charge Loan`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your second charge loan process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when securing a loan with a second charge alongside your existing mortgage. Second charge loans allow you to borrow against the equity in your property while keeping your existing mortgage in place.',
+        fullTitle: 'Independent Legal Advice (ILA) for 2nd Charge Loan',
+        description: 'Ensure your second charge loan proceeds without delays by booking a session for Independent Legal Advice (ILA) to satisfy your lender’s requirements.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Second charge loans are often used by property owners to access additional borrowing against an existing mortgage. This service is essential when property is used as security or a personal guarantee is required. Book your session today to proceed confidently with your second charge loan.',
         meetingPoints: [
-          'Review the second charge documents and security arrangements',
-          'Explain the legal implications and risks of second charge lending',
-          'Address any questions or concerns you may have',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review your loan and security documents',
+          'Explain your legal responsibilities and the implications of signing',
+          'Answer any questions or concerns',
+          'Sign and provide the required ILA Solicitor Certificate for lender compliance'
         ]
       },
       'occupier-consent': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Occupier Consent Form`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your occupier consent process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when confirming the lender\'s charge takes priority over any rights you may have in the property. This is typically needed when you live in a property that is being used as security for someone else\'s borrowing.',
+        fullTitle: 'Occupier Consent Form — Independent Legal Advice',
+        description: 'If you’ve been asked to sign an Occupier Consent Form, book Independent Legal Advice (ILA) to fully understand your rights and obligations.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Occupier Consent Forms confirm that a lender’s charge takes priority over any rights you may hold in a property. This service ensures you understand the legal implications before signing. Book your consultation today to protect your interests and complete the process safely.',
         meetingPoints: [
-          'Review the occupier consent documents you need to sign',
-          'Explain your rights and the priority of the lender\'s charge over the property',
-          'Address any questions or concerns you may have about your occupancy rights',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review the occupier consent documents',
+          'Explain your legal responsibilities and the effect on your property rights',
+          'Answer any questions or concerns',
+          'Sign and issue the ILA Solicitor Certificate to meet lender requirements'
         ]
       },
       'business-loan': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Business Loan`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your business loan process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when providing a personal guarantee or using property as security for a business borrowing. This ensures you understand the personal liability you are taking on for business debts.',
+        fullTitle: 'Business Loan — Independent Legal Advice',
+        description: 'Secure your business loan safely by booking Independent Legal Advice (ILA) to meet your lender’s requirements.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'This service is required when a personal guarantee is provided or property is used as security for a business loan. It applies to both property investors and individuals arranging commercial or personal business loans. Book your session today to proceed with your business loan confidently.',
         meetingPoints: [
-          'Review the business loan documents and personal guarantee requirements',
-          'Explain the legal implications and personal liability for business debts',
-          'Address any questions or concerns about the business loan arrangement',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review loan and security documents',
+          'Explain your legal responsibilities and obligations',
+          'Address questions or concerns',
+          'Sign and provide the required ILA Solicitor Certificate for lender compliance'
         ]
       },
       'third-party-borrowing': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for 3rd Party Borrowing`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your third party borrowing process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when borrowing in another person\'s or company\'s name, supported by a personal guarantee or property charge. This ensures you understand your obligations when supporting someone else\'s borrowing.',
+        fullTitle: 'Third Party Borrowing — Independent Legal Advice',
+        description: 'If a third party is helping you secure a mortgage, book Independent Legal Advice (ILA) to ensure all parties understand their rights and responsibilities.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Third-party borrowing occurs when someone other than the borrower provides a personal guarantee or property as security. Our service ensures all parties fully understand their obligations and legal implications. Book your consultation today to safeguard all parties in the borrowing arrangement.',
         meetingPoints: [
-          'Review the third party borrowing documents and your guarantee obligations',
-          'Explain the legal implications of supporting another party\'s borrowing',
-          'Address any questions about your liability and the security arrangements',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review mortgage and security documents',
+          'Explain the implications of providing or receiving support',
+          'Answer any questions or concerns',
+          'Issue the ILA Solicitor Certificate for lender compliance'
         ]
       },
       'equity-release': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Equity Release`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your equity release process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when releasing funds from your home through a lifetime mortgage or similar arrangement. This ensures you understand the long-term implications of equity release on your property and inheritance.',
+        fullTitle: 'Equity Release — Independent Legal Advice',
+        description: 'Planning to release equity from your property? Book Independent Legal Advice (ILA) to understand the full legal and financial implications.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Equity release allows homeowners to access funds from their property, often for retirement or other financial needs. This service ensures you fully understand the long-term impact on your estate and obligations. Book your consultation today to proceed safely and confidently with equity release.',
         meetingPoints: [
-          'Review the equity release documents and loan terms',
-          'Explain the long-term implications on your property and inheritance',
-          'Address any questions about repayment terms and interest accumulation',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review the equity release documents',
+          'Explain your rights, responsibilities, and potential risks',
+          'Answer any questions or concerns',
+          'Sign and provide the required ILA Solicitor Certificate to meet lender requirements'
         ]
       },
       'change-ownership': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Change of Ownership`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your change of ownership process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when changing legal ownership by adding or removing a co-owner. This ensures you understand the legal and financial implications of ownership changes on your property.',
+        fullTitle: 'Change of Ownership — Independent Legal Advice',
+        description: 'Transferring property ownership? Book Independent Legal Advice (ILA) to ensure the process is legally compliant and your interests are protected.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Change of ownership may involve transferring a mortgage or providing security. Our service ensures all parties understand their obligations and any lender requirements. Book your consultation today to complete the ownership transfer with confidence.',
         meetingPoints: [
-          'Review the ownership change documents and new ownership structure',
-          'Explain the legal implications of adding or removing co-owners',
-          'Address any questions about property rights and financial responsibilities',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the requirements'
+          'Review transfer and security documents',
+          'Explain your responsibilities and legal implications',
+          'Answer any questions or concerns',
+          'Sign and provide the ILA Solicitor Certificate for lender compliance'
         ]
       },
       'deposit-gift': {
-        fullTitle: `Independent Legal Advice (ILA) for ${package_.persons} Person${package_.persons > 1 ? 's' : ''} for Deposit Gift`,
-        description: 'Book a session for ILA to satisfy your lender\'s requirements and ensure your deposit gift process proceeds without delay.',
-        costDescription: `The cost for ${package_.persons === 1 ? 'one person' : `${package_.persons} persons`} is £${package_.price.toFixed(2)} including VAT, with an additional £18 (including VAT) for Special Delivery postage if needed.`,
-        serviceDescription: 'This ILA service is required when gifting funds towards a property purchase with no repayment expected. This confirms the gift is genuine and there are no hidden obligations or expectations of repayment.',
+        fullTitle: 'Deposit Gift — Independent Legal Advice',
+        description: 'Receiving or giving a deposit gift? Book Independent Legal Advice (ILA) to understand the legal implications and protect your mortgage process.',
+        costDescription: 'Cost: £270.00 for 2 persons (including VAT). Optional Special Delivery: £18.00 (including VAT).',
+        serviceDescription: 'Deposit gifts often involve family members or friends providing funds for a property purchase. Our service ensures all parties understand the financial and legal responsibilities before proceeding. Book your consultation today to safeguard your mortgage process and ensure full legal clarity.',
         meetingPoints: [
-          'Review the gift documentation and confirm no repayment is expected',
-          'Explain the legal implications of property gifting and tax considerations',
-          'Address any questions about the gift arrangements and future obligations',
-          'Sign and provide the necessary ILA Solicitor Certificate, ensuring compliance with the lender\'s requirements'
+          'Review deposit gift documents',
+          'Explain the legal implications and responsibilities for donors and recipients',
+          'Answer any questions or concerns',
+          'Sign and issue the ILA Solicitor Certificate for lender compliance'
         ]
       }
     }
@@ -582,17 +731,25 @@ function BookingFlow({ preSelectedService = null }) {
             )}
 
             <div className="package-selection">
-              <h2>Select Number of Persons - 4 Options:</h2>
+              <h2>
+                {selectedService === 'immigration' || selectedService === 'family-solicitors'
+                  ? 'Select Appointment Length:'
+                  : `Select Number of Persons - ${getPackageOptions().length} Option${getPackageOptions().length > 1 ? 's' : ''}:`}
+              </h2>
               
               <div className="packages-grid">
-                {packageOptions.map((package_) => (
+                {getPackageOptions().map((package_) => (
                   <div 
                     key={package_.id}
                     className={`package-card ${selectedPackage === package_.id ? 'selected' : ''}`}
                     onClick={() => handlePackageSelect(package_.id)}
                   >
                     <div className="package-header">
-                      <h3>{getSelectedServiceTitle()} - {package_.persons} Person{package_.persons > 1 ? 's' : ''}</h3>
+                      <h3>
+                        {selectedService === 'immigration' || selectedService === 'family-solicitors'
+                          ? `${getSelectedServiceTitle()} - ${package_.label}`
+                          : `${getSelectedServiceTitle()} - ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`}
+                      </h3>
                       <div className="price-info">
                         <span className="price">£{package_.price.toFixed(2)}</span>
                         <span className="vat-text">Incl. VAT</span>
@@ -601,7 +758,11 @@ function BookingFlow({ preSelectedService = null }) {
 
                     <div className="package-details">
                       <span className="detail-item">📋 {getSelectedServiceTitle()}</span>
-                      <span className="detail-item">⏰ 15min</span>
+                      <span className="detail-item">
+                        ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors') && package_.durationLabel
+                          ? package_.durationLabel
+                          : '15min'}
+                      </span>
                       <span className="detail-item">💻 Zoom Meeting</span>
                     </div>
 
@@ -633,10 +794,18 @@ function BookingFlow({ preSelectedService = null }) {
 
             <div className="service-details-header">
               <div className="service-title-section">
-                <h1>{getSelectedServiceTitle()} - {getSelectedPackage()?.persons} Person{getSelectedPackage()?.persons > 1 ? 's' : ''}</h1>
+                <h1>
+                  {(selectedService === 'immigration' || selectedService === 'family-solicitors') && getSelectedPackage()
+                    ? `${getSelectedServiceTitle()} - ${getSelectedPackage().label}`
+                    : `${getSelectedServiceTitle()} - ${getSelectedPackage()?.persons} Person${getSelectedPackage()?.persons > 1 ? 's' : ''}`}
+                </h1>
                 <div className="service-info-icons">
                   <span className="info-item">📋 {getSelectedServiceTitle()}</span>
-                  <span className="info-item">⏰ 15min slots</span>
+                  <span className="info-item">
+                    ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors') && getSelectedPackage()?.durationLabel
+                      ? getSelectedPackage().durationLabel
+                      : '15min slots'}
+                  </span>
                   <span className="info-item">💻 Zoom Meeting</span>
                 </div>
               </div>
@@ -680,13 +849,18 @@ function BookingFlow({ preSelectedService = null }) {
                       <p className="cost-description">
                         {getServiceDetails().costDescription}
                       </p>
-                      
-                      <p className="service-explanation">
-                        {getServiceDetails().serviceDescription}
-                      </p>
+                      {getServiceDetails().serviceDescription && (
+                        <p className="service-explanation">
+                          {getServiceDetails().serviceDescription}
+                        </p>
+                      )}
                       
                       <div className="meeting-section">
-                        <h3>During the Zoom meeting, the solicitor will:</h3>
+                      <h3>
+                        {selectedService === 'family-solicitors'
+                          ? 'What to expect during your consultation (Zoom or in-person):'
+                          : 'During the Zoom meeting, the solicitor will:'}
+                      </h3>
                         <ul className="meeting-points">
                           {getServiceDetails().meetingPoints.map((point, index) => (
                             <li key={index}>{point}</li>
