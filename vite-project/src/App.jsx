@@ -740,7 +740,11 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
                   : `Select Number of Persons - ${getPackageOptions().length} Option${getPackageOptions().length > 1 ? 's' : ''}:`}
               </h2>
               
-              <div className="packages-grid">
+              <div
+                className={`packages-grid ${
+                  getPackageOptions().length === 1 ? 'single-option' : ''
+                }`}
+              >
                 {getPackageOptions().map((package_) => (
                   <div 
                     key={package_.id}
