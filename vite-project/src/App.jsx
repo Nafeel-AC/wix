@@ -92,6 +92,11 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
       id: 'deposit-gift',
       title: 'Deposit Gift',
       description: 'Deposit gifts can carry important legal and financial implications. Book Independent Legal Advice to safeguard your position before accepting or providing a gift.'
+    },
+    {
+      id: 'personal-injury',
+      title: 'Personal Injury',
+      description: 'Expert legal advice and representation for personal injury claims, accidents, and compensation matters.'
     }
   ]
 
@@ -302,7 +307,7 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
   }
 
   const getPackageOptions = () => {
-    if (selectedService === 'immigration') {
+    if (selectedService === 'immigration' || selectedService === 'personal-injury') {
       return [
         {
           id: '30-min',
@@ -467,7 +472,7 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
     const baseDetails = {
       'immigration': {
         fullTitle: `Immigration Legal Services - ${package_.label}`,
-        description: 'Get one-on-one advice from our specialist immigration solicitors, either via Zoom or in person. We’ll review your case, explain your options, and guide you through applications or appeals. Expert guidance on visas, citizenship, and residency.',
+        description: 'Get one-on-one advice from our specialist immigration solicitors, either via Zoom or in person. We\'ll review your case, explain your options, and guide you through applications or appeals. Expert guidance on visas, citizenship, and residency.',
         costDescription: '£60 for 30 Mins (VAT included). £120 for 1 Hour (VAT included).',
         serviceDescription: '',
         meetingPoints: [
@@ -475,6 +480,18 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
           'Provide expert legal advice on visa and residency options',
           'Assist with application preparation and submission',
           'Address any questions or concerns about your immigration status'
+        ]
+      },
+      'personal-injury': {
+        fullTitle: `Personal Injury Legal Services - ${package_.label}`,
+        description: 'Get one-on-one advice from our specialist personal injury solicitors, either via Zoom or in person. We\'ll review your case, explain your options, and guide you through your claim and compensation matters.',
+        costDescription: '£60 for 30 Mins (VAT included). £120 for 1 Hour (VAT included).',
+        serviceDescription: '',
+        meetingPoints: [
+          'Review your personal injury case and documentation',
+          'Provide expert legal advice on your claim and compensation options',
+          'Assist with claim preparation and submission',
+          'Address any questions or concerns about your personal injury case'
         ]
       },
       'family-solicitors': {
@@ -735,7 +752,7 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
 
             <div className="package-selection">
               <h2>
-                {selectedService === 'immigration' || selectedService === 'family-solicitors'
+                {selectedService === 'immigration' || selectedService === 'family-solicitors' || selectedService === 'personal-injury'
                   ? 'Select Appointment Length:'
                   : `Select Number of Persons - ${getPackageOptions().length} Option${getPackageOptions().length > 1 ? 's' : ''}:`}
               </h2>
@@ -753,7 +770,7 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
                   >
                     <div className="package-header">
                       <h3>
-                        {selectedService === 'immigration' || selectedService === 'family-solicitors'
+                        {selectedService === 'immigration' || selectedService === 'family-solicitors' || selectedService === 'personal-injury'
                           ? `${getSelectedServiceTitle()} - ${package_.label}`
                           : `${getSelectedServiceTitle()} - ${package_.persons} Person${package_.persons > 1 ? 's' : ''}`}
                       </h3>
@@ -766,7 +783,7 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
                     <div className="package-details">
                       <span className="detail-item">📋 {getSelectedServiceTitle()}</span>
                       <span className="detail-item">
-                        ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors') && package_.durationLabel
+                        ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors' || selectedService === 'personal-injury') && package_.durationLabel
                           ? package_.durationLabel
                           : '15min'}
                       </span>
@@ -802,14 +819,14 @@ function BookingFlow({ preSelectedService = null, servicesFilter = null }) {
             <div className="service-details-header">
               <div className="service-title-section">
                 <h1>
-                  {(selectedService === 'immigration' || selectedService === 'family-solicitors') && getSelectedPackage()
+                  {(selectedService === 'immigration' || selectedService === 'family-solicitors' || selectedService === 'personal-injury') && getSelectedPackage()
                     ? `${getSelectedServiceTitle()} - ${getSelectedPackage().label}`
                     : `${getSelectedServiceTitle()} - ${getSelectedPackage()?.persons} Person${getSelectedPackage()?.persons > 1 ? 's' : ''}`}
                 </h1>
                 <div className="service-info-icons">
                   <span className="info-item">📋 {getSelectedServiceTitle()}</span>
                   <span className="info-item">
-                    ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors') && getSelectedPackage()?.durationLabel
+                    ⏰ {(selectedService === 'immigration' || selectedService === 'family-solicitors' || selectedService === 'personal-injury') && getSelectedPackage()?.durationLabel
                       ? getSelectedPackage().durationLabel
                       : '15min slots'}
                   </span>
@@ -1237,6 +1254,7 @@ function App() {
       <Route path="/" element={<BookingFlow />} />
       <Route path="/immigration" element={<BookingFlow preSelectedService="immigration" />} />
       <Route path="/family-solicitors" element={<BookingFlow preSelectedService="family-solicitors" />} />
+      <Route path="/personal-injury" element={<BookingFlow preSelectedService="personal-injury" />} />
       <Route path="/independent-legal-advice" element={<BookingFlow servicesFilter={ilaServicesFilter} />} />
     </Routes>
   )
